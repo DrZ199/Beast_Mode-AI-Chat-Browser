@@ -64,14 +64,36 @@ export async function POST(request: NextRequest): Promise<NextResponse<RunAgentR
 
       // Map our model names to actual model identifiers
       const modelMapping: Record<string, string> = {
+        // Premium Models
         'gpt-4-turbo': 'openai/gpt-4-turbo',
         'claude-3-haiku': 'anthropic/claude-3-haiku',
         'mistral-medium': 'mistralai/mistral-medium',
+        
+        // Free Models - Google
+        'gemini-flash': 'google/gemini-flash-1.5',
         'gemini-pro': 'google/gemini-pro',
-        'llama-3-8b': 'meta-llama/llama-3-8b-instruct'
+        
+        // Free Models - Meta Llama
+        'llama-3-8b': 'meta-llama/llama-3-8b-instruct',
+        'llama-3-70b': 'meta-llama/llama-3-70b-instruct',
+        'llama-3.1-8b': 'meta-llama/llama-3.1-8b-instruct',
+        'llama-3.2-3b': 'meta-llama/llama-3.2-3b-instruct',
+        
+        // Free Models - Mistral AI  
+        'mixtral-8x7b': 'mistralai/mixtral-8x7b-instruct',
+        'mistral-7b': 'mistralai/mistral-7b-instruct',
+        
+        // Free Models - Microsoft
+        'phi-3-mini': 'microsoft/phi-3-mini-4k-instruct',
+        'phi-3-medium': 'microsoft/phi-3-medium-4k-instruct',
+        
+        // Free Models - Specialized
+        'codellama-7b': 'meta-llama/codellama-7b-instruct',
+        'zephyr-7b': 'huggingfaceh4/zephyr-7b-beta',
+        'openchat-7b': 'openchat/openchat-7b'
       }
 
-      const selectedModel = modelMapping[model] || modelMapping['claude-3-haiku']
+      const selectedModel = modelMapping[model] || modelMapping['gemini-flash']
 
       // Execute the task using ZAI
       const completion = await zai.chat.completions.create({
