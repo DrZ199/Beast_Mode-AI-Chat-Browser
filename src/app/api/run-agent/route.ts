@@ -51,7 +51,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<RunAgentR
 
     try {
       // Create ZAI instance
-      const zai = await ZAI.create()
+      const zai = await ZAI.create({ apiKey })
 
       // Build context from previous completed tasks
       const context = tasks
