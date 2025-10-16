@@ -52,7 +52,7 @@ export default function BeastMode() {
   const [isRunning, setIsRunning] = useState(false)
   const { toast } = useToast()
 
-  // Load data from localStorage on mount
+  // Load data from localStorage on mount and handle PWA shortcuts
   useEffect(() => {
     const savedAgents = localStorage.getItem('beastmode-agents')
     const savedSettings = localStorage.getItem('beastmode-settings')
@@ -68,6 +68,23 @@ export default function BeastMode() {
     }
     if (savedTheme) {
       setDarkMode(savedTheme === 'dark')
+    }
+
+    // Handle PWA shortcuts from URL parameters
+    const urlParams = new URLSearchParams(window.location.search)
+    const action = urlParams.get('action')
+    
+    if (action === 'new-agent') {
+      setTimeout(() => setShowNewAgent(true), 500)
+    } else if (action === 'settings') {
+      setTimeout(() => setShowSettings(true), 500)
+    }
+
+    // Clean up URL parameters after handling
+    if (action) {
+      const url = new URL(window.location.href)
+      url.searchParams.delete('action')
+      window.history.replaceState({}, '', url.toString())
     }
   }, [])
 
